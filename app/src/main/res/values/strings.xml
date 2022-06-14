@@ -5,4 +5,8 @@
     <!-- Paste BOTH strings as required -->
     <string name="back4app_app_id">pEKr72D4sfKMoXNSxlRsmCDLgDEtMa8XK45BcIr4</string>
     <string name="back4app_client_key">e5rDywtOIPUycMNJqppoZZg0BsebZUgxh7UUUeBT</string>
+    <string name="logout">Logout</string>
+    <string-array name="user_menu_options">
+        <item>@string/logout</item>
+    </string-array>
 </resources>

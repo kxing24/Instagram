@@ -50,7 +50,7 @@
             android:name=".FeedActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ComposeActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

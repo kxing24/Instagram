@@ -16,21 +16,7 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
-        app:layout_constraintTop_toTopOf="@id/toolbar"
         tools:layout_editor_absoluteX="0dp" />
-
-    <ImageButton
-        android:id="@+id/ibComposePost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/instagram_new_post_outline_24" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -39,9 +25,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginEnd="-1dp"
         android:background="@color/white"
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
@@ -56,5 +42,29 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         app:srcCompat="@drawable/instagram_text" />
+
+    <ImageButton
+        android:id="@+id/ibComposePost"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@+id/sUserDropdownMenu"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/instagram_new_post_outline_24"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.codepath.kathyxing.instagram.NDSpinner
+        android:id="@+id/sUserDropdownMenu"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/instagram_user_outline_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>

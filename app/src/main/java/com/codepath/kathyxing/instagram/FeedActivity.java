@@ -5,27 +5,32 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String TAG = "FeedActivity";
 
+    private int check = 0;
+
     private RecyclerView rvPosts;
     private ImageButton ibComposePost;
+    private NDSpinner sUserDropdownMenu;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
 
@@ -38,11 +43,20 @@ public class FeedActivity extends AppCompatActivity {
 
         rvPosts = findViewById(R.id.rvPosts);
         ibComposePost = findViewById(R.id.ibComposePost);
+        sUserDropdownMenu = findViewById(R.id.sUserDropdownMenu);
 
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(this, allPosts);
 
+        // set up the spinner
+        String[] userMenuOptions = getResources().getStringArray(R.array.user_menu_options);
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, userMenuOptions);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sUserDropdownMenu.setAdapter(spinnerAdapter);
+        sUserDropdownMenu.setOnItemSelectedListener(this);
+
+        // click listener for compose post image button
         ibComposePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +71,7 @@ public class FeedActivity extends AppCompatActivity {
         // set the layout manager on the recycler view
         rvPosts.setLayoutManager(linearLayoutManager);
 
+        // implementation of endless scroll
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -69,17 +84,7 @@ public class FeedActivity extends AppCompatActivity {
         // query posts from Instagram
         queryPosts();
 
-        /*
-        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-
-        // custom image for action bar
-        actionBar.setDisplayShowCustomEnabled(true);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.custom_image, null);
-        actionBar.setCustomView(view);
-         */
-
+        // set up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -116,8 +121,20 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
+    private void logoutUser() {
+        Log.i(TAG, "Logging out");
+        ParseUser.logOutInBackground();
+        goLoginActivity();
+    }
+
     private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void goLoginActivity() {
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
@@ -128,5 +145,21 @@ public class FeedActivity extends AppCompatActivity {
         //  --> Deserialize and construct new model objects from the API response
         //  --> Append the new data objects to the existing set of items inside the array of items
         //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.i("FeedActivity", "item selected");
+        if (++check > 1 && parent.getId() == R.id.sUserDropdownMenu) {
+            String valueFromSpinner = parent.getItemAtPosition(position).toString();
+            if (valueFromSpinner.equals(getString(R.string.logout))) {
+                logoutUser();
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        Log.i("FeedActivity", "nothing selected");
     }
 }
