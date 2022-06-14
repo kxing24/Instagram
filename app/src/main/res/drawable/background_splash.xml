@@ -2,9 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
 
-    <item android:drawable="@color/white" />
+    <item android:drawable="@drawable/background_gradient" />
 
     <item
         android:drawable="@drawable/instagram_icon_vector"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        android:height="100dp"
+        android:width="100dp"/>
 </layer-list>

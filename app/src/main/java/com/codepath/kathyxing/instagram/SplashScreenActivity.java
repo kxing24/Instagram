@@ -24,9 +24,4 @@ public class SplashScreenActivity extends AppCompatActivity {
         }, SPLASH_TIMER);
 
     }
-
-    private void doFirstRunCheckup() {
-        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-        finish();
-    }
 }
