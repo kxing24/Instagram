@@ -11,11 +11,11 @@
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ivInstagramText"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:hint="username" />
 
@@ -41,5 +41,14 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:text="Login" />
+
+    <ImageView
+        android:id="@+id/ivInstagramText"
+        android:layout_width="308dp"
+        android:layout_height="78dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="132dp"
+        app:srcCompat="@drawable/instagram_text" />
 
 </RelativeLayout>

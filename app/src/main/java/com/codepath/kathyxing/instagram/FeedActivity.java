@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -19,6 +22,7 @@ public class FeedActivity extends AppCompatActivity {
     public static final String TAG = "FeedActivity";
 
     private RecyclerView rvPosts;
+    private ImageButton ibComposePost;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
 
@@ -28,10 +32,18 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
 
         rvPosts = findViewById(R.id.rvPosts);
+        ibComposePost = findViewById(R.id.ibComposePost);
 
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(this, allPosts);
+
+        ibComposePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMainActivity();
+            }
+        });
 
         // set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
@@ -70,5 +82,11 @@ public class FeedActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }
