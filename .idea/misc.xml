@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.222" />
+        <entry key="app/src/main/res/drawable/background_splash.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/bg_gradient.xml" value="0.222" />
+        <entry key="app/src/main/res/drawable/instagram_icon_vector.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/splash_fg.xml" value="0.222" />
         <entry key="app/src/main/res/layout/activity_feed.xml" value="0.22056159420289856" />
