@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -40,6 +41,7 @@ public class ComposeFragment extends Fragment {
     private ImageView ivPostImage;
     private Button btnSubmit;
     private File photoFile;
+    private ProgressBar pbLoading;
     public String photoFileName = "photo.jpg";
 
     // Required empty public constructor
@@ -67,6 +69,7 @@ public class ComposeFragment extends Fragment {
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
+        pbLoading = view.findViewById(R.id.pbLoading);
 
         // click handler for CaptureImage button
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +136,8 @@ public class ComposeFragment extends Fragment {
     }
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
+        pbLoading.setVisibility(View.VISIBLE);
+
         Post post = new Post();
         post.setDescription(description);
         post.setImage(new ParseFile(photoFile));
@@ -147,6 +152,7 @@ public class ComposeFragment extends Fragment {
                 Log.i(TAG, "Post save was successful!");
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
+                pbLoading.setVisibility(View.INVISIBLE);
             }
         });
     }
