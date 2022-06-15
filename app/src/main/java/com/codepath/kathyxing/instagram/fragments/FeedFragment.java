@@ -1,19 +1,29 @@
-package com.codepath.kathyxing.instagram;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.codepath.kathyxing.instagram.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.codepath.kathyxing.instagram.EndlessRecyclerViewScrollListener;
+import com.codepath.kathyxing.instagram.LoginActivity;
+import com.codepath.kathyxing.instagram.NDSpinner;
+import com.codepath.kathyxing.instagram.Post;
+import com.codepath.kathyxing.instagram.PostsAdapter;
+import com.codepath.kathyxing.instagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -22,9 +32,9 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class FeedFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    public static final String TAG = "FeedActivity";
+    public static final String TAG = "FeedFragment";
 
     private int check = 0;
 
@@ -36,36 +46,40 @@ public class FeedActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+    // Required empty public constructor
+    public FeedFragment() {}
 
-        // initialize views
-        rvPosts = findViewById(R.id.rvPosts);
-        ibComposePost = findViewById(R.id.ibComposePost);
-        sUserDropdownMenu = findViewById(R.id.sUserDropdownMenu);
+    // The onCreateView method is called when Fragment should create its View object hierarchy,
+    // either dynamically or via XML layout inflation.
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_feed, container, false);
+    }
+
+    // This event is triggered soon after onCreateView().
+    // onViewCreated() is only called if the view returned from onCreateView() is non-null.
+    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        rvPosts = view.findViewById(R.id.rvPosts);
+        ibComposePost = view.findViewById(R.id.ibComposePost);
+        sUserDropdownMenu = view.findViewById(R.id.sUserDropdownMenu);
 
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(this, allPosts);
+        adapter = new PostsAdapter(getContext(), allPosts);
 
         // set up the spinner
         String[] userMenuOptions = getResources().getStringArray(R.array.user_menu_options);
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, userMenuOptions);
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, userMenuOptions);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sUserDropdownMenu.setAdapter(spinnerAdapter);
         sUserDropdownMenu.setOnItemSelectedListener(this);
 
-        // click listener for compose post image button
-        ibComposePost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goMainActivity();
-            }
-        });
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
         // set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
@@ -86,9 +100,16 @@ public class FeedActivity extends AppCompatActivity implements AdapterView.OnIte
         queryPosts();
 
         // set up the toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        // reset check when the fragment is destroyed
+        check = 0;
+        super.onDestroyView();
     }
 
     private void queryPosts() {
@@ -123,16 +144,9 @@ public class FeedActivity extends AppCompatActivity implements AdapterView.OnIte
         goLoginActivity();
     }
 
-    private void goMainActivity() {
-        Intent i = new Intent(this, ComposeActivity.class);
-        startActivity(i);
-        finish();
-    }
-
     private void goLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(getContext(), LoginActivity.class);
         startActivity(i);
-        finish();
     }
 
     public void loadNextDataFromApi(int offset) {
