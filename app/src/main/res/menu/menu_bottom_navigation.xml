@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_capture"
-        android:enabled="true"
-        android:icon="@drawable/instagram_new_post_filled_24"
-        android:title="@string/capture"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_feed"
         android:enabled="true"
         android:icon="@drawable/instagram_home_filled_24"
         android:title="@string/feed"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_capture"
+        android:enabled="true"
+        android:icon="@drawable/instagram_new_post_filled_24"
+        android:title="@string/capture"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_profile"

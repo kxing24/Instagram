@@ -9,6 +9,8 @@
     <string name="feed">feed</string>
     <string name="profile">profile</string>
     <string name="logout">Logout</string>
+    <string name="login"><u>Login</u></string>
+    <string name="signup"><u>Sign up</u></string>
     <string-array name="user_menu_options">
         <item>@string/logout</item>
     </string-array>

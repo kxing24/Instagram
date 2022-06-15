@@ -39,7 +39,6 @@ public class ComposeFragment extends Fragment {
     private Button btnCaptureImage;
     private ImageView ivPostImage;
     private Button btnSubmit;
-    private Button btnLogout;
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
@@ -67,7 +66,6 @@ public class ComposeFragment extends Fragment {
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-        btnLogout = view.findViewById(R.id.btnLogout);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,14 +88,6 @@ public class ComposeFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
-            }
-        });
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick logout button");
-                logoutUser();
             }
         });
 
@@ -156,17 +146,6 @@ public class ComposeFragment extends Fragment {
                 ivPostImage.setImageResource(0);
             }
         });
-    }
-
-    private void logoutUser() {
-        Log.i(TAG, "Logging out");
-        ParseUser.logOutInBackground();
-        goLoginActivity();
-    }
-
-    private void goLoginActivity() {
-        Intent i = new Intent(getContext(), LoginActivity.class);
-        startActivity(i);
     }
 
     // Returns the File for a photo stored on disk given the fileName
