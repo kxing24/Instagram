@@ -51,12 +51,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FeedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ComposeActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="false" >
         </activity>

@@ -32,15 +32,11 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class FeedFragment extends Fragment {
 
     public static final String TAG = "FeedFragment";
 
-    private int check = 0;
-
     private RecyclerView rvPosts;
-    private ImageButton ibComposePost;
-    private NDSpinner sUserDropdownMenu;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
 
@@ -65,19 +61,10 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         rvPosts = view.findViewById(R.id.rvPosts);
-        ibComposePost = view.findViewById(R.id.ibComposePost);
-        sUserDropdownMenu = view.findViewById(R.id.sUserDropdownMenu);
 
         // initialize the array that will hold posts and create a PostsAdapter
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
-
-        // set up the spinner
-        String[] userMenuOptions = getResources().getStringArray(R.array.user_menu_options);
-        ArrayAdapter spinnerAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, userMenuOptions);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sUserDropdownMenu.setAdapter(spinnerAdapter);
-        sUserDropdownMenu.setOnItemSelectedListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -99,17 +86,6 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemSelected
         // query posts from Instagram
         queryPosts();
 
-        // set up the toolbar
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-    @Override
-    public void onDestroyView() {
-        // reset check when the fragment is destroyed
-        check = 0;
-        super.onDestroyView();
     }
 
     private void queryPosts() {
@@ -138,17 +114,6 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemSelected
         });
     }
 
-    private void logoutUser() {
-        Log.i(TAG, "Logging out");
-        ParseUser.logOutInBackground();
-        goLoginActivity();
-    }
-
-    private void goLoginActivity() {
-        Intent i = new Intent(getContext(), LoginActivity.class);
-        startActivity(i);
-    }
-
     public void loadNextDataFromApi(int offset) {
         // Send an API request to retrieve appropriate paginated data
         //  --> Send the request including an offset value (i.e `page`) as a query parameter.
@@ -157,19 +122,4 @@ public class FeedFragment extends Fragment implements AdapterView.OnItemSelected
         //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("FeedActivity", "item selected");
-        if (++check > 1 && parent.getId() == R.id.sUserDropdownMenu) {
-            String valueFromSpinner = parent.getItemAtPosition(position).toString();
-            if (valueFromSpinner.equals(getString(R.string.logout))) {
-                logoutUser();
-            }
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        Log.i("FeedActivity", "nothing selected");
-    }
 }

@@ -21,20 +21,15 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.codepath.kathyxing.instagram.ComposeActivity;
-import com.codepath.kathyxing.instagram.FeedActivity;
 import com.codepath.kathyxing.instagram.LoginActivity;
 import com.codepath.kathyxing.instagram.Post;
 import com.codepath.kathyxing.instagram.R;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.util.List;
 
 public class ComposeFragment extends Fragment {
 
