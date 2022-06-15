@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.kathyxing.instagram.EndlessRecyclerViewScrollListener;
 import com.codepath.kathyxing.instagram.LoginActivity;
@@ -29,6 +30,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,7 @@ public class FeedFragment extends Fragment {
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
 
+    private SwipeRefreshLayout swipeContainer;
     private EndlessRecyclerViewScrollListener scrollListener;
 
     // Required empty public constructor
@@ -73,7 +77,7 @@ public class FeedFragment extends Fragment {
         // set the layout manager on the recycler view
         rvPosts.setLayoutManager(linearLayoutManager);
 
-        // implementation of endless scroll
+        // start of implementation of endless scroll
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -82,6 +86,27 @@ public class FeedFragment extends Fragment {
         };
         // Adds the scroll listener to RecyclerView
         rvPosts.addOnScrollListener(scrollListener);
+        // end of implementation of endless scroll
+
+        // start of implementation of swipe to refresh
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchFeedAsync();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        // end of implementation of swipe to refresh
 
         // query posts from Instagram
         queryPosts();
@@ -120,6 +145,17 @@ public class FeedFragment extends Fragment {
         //  --> Deserialize and construct new model objects from the API response
         //  --> Append the new data objects to the existing set of items inside the array of items
         //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
+    }
+
+    public void fetchFeedAsync() {
+        // Send the network request to fetch the updated data
+
+        // clear out old items before appending in the new ones
+        adapter.clear();
+        // add new items to adapter
+        queryPosts();
+        // Call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
     }
 
 }

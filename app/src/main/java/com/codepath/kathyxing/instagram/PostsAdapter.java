@@ -48,6 +48,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         private TextView tvUsername;
         private TextView tvCreationTime;
+        private ImageView ivProfile;
         private ImageView ivImage;
         private TextView tvDescription;
 
@@ -57,6 +58,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvCreationTime = itemView.findViewById(R.id.tvCreationTime);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivProfile = itemView.findViewById(R.id.ivProfile);
         }
 
         public void bind(Post post) {
@@ -72,6 +74,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 ivImage.setVisibility(View.GONE);
             }
         }
+    }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Post> list) {
+        posts.addAll(list);
+        notifyDataSetChanged();
     }
 
 }

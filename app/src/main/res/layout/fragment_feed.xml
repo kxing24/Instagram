@@ -6,17 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.FeedFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPosts"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
