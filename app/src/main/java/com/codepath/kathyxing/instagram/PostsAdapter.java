@@ -1,6 +1,8 @@
 package com.codepath.kathyxing.instagram;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +75,26 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             else {
                 ivImage.setVisibility(View.GONE);
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Log.i("PostsAdapter", "Clicked at position " + position);
+
+                    // make sure the position is valid, i.e. actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the post at the position
+                        Post post = posts.get(position);
+                        // create intent for the new activity
+                        Intent intent = new Intent(context, PostDetailsActivity.class);
+                        // pass the post to the new activity
+                        intent.putExtra(Post.class.getSimpleName(), post);
+                        // show the activity
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
