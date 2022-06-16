@@ -149,7 +149,9 @@ public class ComposeFragment extends Fragment {
                     Log.e(TAG, "Error while saving", e);
                     Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
-                Log.i(TAG, "Post save was successful!");
+                else {
+                    Log.i(TAG, "Post save was successful!");
+                }
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
                 pbLoading.setVisibility(View.INVISIBLE);

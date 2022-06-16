@@ -86,6 +86,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 ivImage.setVisibility(View.GONE);
             }
 
+            // load in profile picture with glide
+            ParseFile profileImage = post.getUser().getParseFile("profileImage");
+            if (profileImage != null) {
+                Glide.with(context).load(profileImage.getUrl()).circleCrop().into(ivProfile);
+            }
+            else {
+                Glide.with(context).load(R.drawable.default_profile_picture).circleCrop().into(ivProfile);
+            }
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

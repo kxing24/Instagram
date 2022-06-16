@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private RelativeLayout rlPreview;
     private Button btnSubmitProfile;
-    private File photoFile;
     private Bitmap selectedProfileImage;
 
     @Override
@@ -178,8 +177,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.e(TAG, "Error while saving", e);
                     Toast.makeText(context, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
-                Log.i(TAG, "Profile picture save was successful!");
-                //ivPostImage.setImageResource(0);
+                else {
+                    Log.i(TAG, "Profile picture save was successful");
+                    Toast.makeText(context, "Successfully save profile picture!", Toast.LENGTH_SHORT).show();
+                    //ivPostImage.setImageResource(0);
+                }
                 rlPreview.setVisibility(View.GONE);
             }
         });
@@ -207,8 +209,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 Uri photoUri = data.getData();
 
-                Log.i("MainActivity", "photoUri is " + photoUri.toString());
-
                 // Load the image located at photoUri into selectedImage
                 selectedProfileImage = loadFromUri(photoUri);
 
@@ -223,11 +223,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("FeedActivity", "item selected");
         if (++check > 1 && parent.getId() == R.id.sUserDropdownMenu) {
             String valueFromSpinner = parent.getItemAtPosition(position).toString();
-            Log.i("FeedActivity", "logout selected");
             if (valueFromSpinner.equals(getString(R.string.logout))) {
+                Log.i("FeedActivity", "logout selected");
                 logoutUser();
             }
             if (valueFromSpinner.equals(getString(R.string.add_profile_picture))) {
@@ -240,6 +239,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        Log.i("FeedActivity", "nothing selected");
     }
 }
