@@ -9,10 +9,12 @@
     <string name="feed">feed</string>
     <string name="profile">profile</string>
     <string name="logout">Logout</string>
+    <string name="add_profile_picture">Add profile picture</string>
     <string name="login"><u>Login</u></string>
     <string name="signup"><u>Sign up</u></string>
     <string-array name="user_menu_options">
         <item>@string/logout</item>
+        <item>@string/add_profile_picture</item>
     </string-array>
     <string name="large_text">
         "Material is the metaphor.\n\n"

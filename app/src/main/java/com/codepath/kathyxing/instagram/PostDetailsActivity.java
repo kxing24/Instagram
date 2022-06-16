@@ -108,7 +108,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         return "";
     }
 
-    public void goMainActivity() {
+    private void goMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
