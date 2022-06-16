@@ -105,5 +105,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
+        finish();
     }
 }

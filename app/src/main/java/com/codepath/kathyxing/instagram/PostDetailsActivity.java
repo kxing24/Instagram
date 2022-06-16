@@ -1,8 +1,10 @@
 package com.codepath.kathyxing.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,10 +39,12 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         post = getIntent().getParcelableExtra(Post.class.getSimpleName());
 
+        // set the values
         tvUsername.setText(post.getUser().getUsername());
         tvTimeAgo.setText(calculateTimeAgo(post.getCreatedAt()) + "ago");
         tvDescription.setText(post.getDescription());
 
+        // load in image with glide
         ParseFile image = post.getImage();
         if (image != null) {
             Glide.with(context).load(image.getUrl()).into(ivImage);
@@ -49,8 +53,25 @@ public class PostDetailsActivity extends AppCompatActivity {
             ivImage.setVisibility(View.GONE);
         }
 
+        // set up the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+
+        // have the toolbar show a back button
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMainActivity();
+            }
+        });
+
     }
 
+    // a method that takes in a date and returns the time ago
     private static String calculateTimeAgo(Date createdAt) {
 
         int SECOND_MILLIS = 1000;
@@ -85,5 +106,11 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
 
         return "";
+    }
+
+    public void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }
