@@ -8,21 +8,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import java.util.Date;
 
 public class PostDetailsActivity extends AppCompatActivity {
+
+    public static final String TAG = "PostDetailsActivity";
 
     Post post;
     TextView tvUsername;
     TextView tvTimeAgo;
     ImageView ivImage;
     TextView tvDescription;
+    Button btnLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvTimeAgo = findViewById(R.id.tvTimeAgo);
         ivImage = findViewById(R.id.ivImage);
         tvDescription = findViewById(R.id.tvDescription);
+        btnLike = findViewById(R.id.btnLike);
 
         post = getIntent().getParcelableExtra(Post.class.getSimpleName());
 
@@ -43,6 +52,14 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvUsername.setText(post.getUser().getUsername());
         tvTimeAgo.setText(calculateTimeAgo(post.getCreatedAt()) + "ago");
         tvDescription.setText(post.getDescription());
+
+        // click handler for the like button
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likePost(post);
+            }
+        });
 
         // load in image with glide
         ParseFile image = post.getImage();
@@ -112,5 +129,14 @@ public class PostDetailsActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    private void likePost(Post post) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseRelation<ParseObject> likeRelation = currentUser.getRelation("likes");
+        likeRelation.add(post);
+        Log.i(TAG, "liked post");
+        currentUser.saveInBackground();
+        Toast.makeText(this, "Liked post!", Toast.LENGTH_SHORT).show();
     }
 }
