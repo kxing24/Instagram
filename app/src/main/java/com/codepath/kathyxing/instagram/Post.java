@@ -2,6 +2,8 @@ package com.codepath.kathyxing.instagram;
 
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
