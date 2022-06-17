@@ -209,6 +209,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 Uri photoUri = data.getData();
 
+                //TODO: rotate the photo
+
                 // Load the image located at photoUri into selectedImage
                 selectedProfileImage = loadFromUri(photoUri);
 
@@ -231,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             if (valueFromSpinner.equals(getString(R.string.add_profile_picture))) {
                 Log.i("FeedActivity", "add profile picture selected");
-                // TODO: call an activity that lets the user select a photo
                 onPickPhoto();
             }
         }
